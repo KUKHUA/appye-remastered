@@ -10,7 +10,8 @@ self.addEventListener('fetch', event => {
 
   async function handleRootRequestFromOPFS(request) {
     try {
-        const fs = await navigator.storage.getDirectory();
+        let fs = await navigator.storage.getDirectory();
+        fs = fs.getDirectoryHandle('root');
         let url = new URL(request.url);
         let path = url.pathname;
         // Get everything after /root/
