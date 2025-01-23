@@ -1,0 +1,14 @@
+{
+    "autoLoad": {
+        "apps": ["listApp"],
+        "classes": ["classLoader", "fileLib"],
+        "scripts": ["setupEnvironment"]
+    },
+
+    "systemInfo": {
+        "name": "Appye-Remastered",
+        "version": "1.0.0",
+        "description": "it exists."
+    }
+
+}

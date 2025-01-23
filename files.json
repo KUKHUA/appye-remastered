@@ -1,0 +1,9 @@
+{
+  "files": [
+    "/fileSystem/system/classes/fileLib.js"
+,
+    "/fileSystem/system/script/serviceWorker.js"
+,
+    "/fileSystem/system.json"
+  ]
+}
