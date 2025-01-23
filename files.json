@@ -4,6 +4,8 @@
 ,
     "/fileSystem/system/script/serviceWorker.js"
 ,
+    "/fileSystem/apps/appList.json"
+,
     "/fileSystem/system.json"
   ]
 }
