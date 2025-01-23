@@ -1,6 +1,6 @@
 class installer{
     constructor(){
-        this.mirror = new URL("https://raw.githack.com/KUKHUA/appye-remastered/tree/main");
+        this.mirror = new URL("https://raw.githack.com/KUKHUA/appye-remastered/main");
         this.fileSystem = new OPFSFileSystem("root");
         this.fileList = new URL("files.json", this.mirror);
     }
