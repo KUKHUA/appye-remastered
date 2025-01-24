@@ -12,7 +12,9 @@ class installer{
         this.fileList.files.forEach(async element => {
             let fileURL = this.mirror.href + element;
             console.log(fileURL);
-            let fileBlob = fetch(fileURL).then(response => response.blob());
+            let fileBlob = fetch(fileURL);
+            fileBlob = await fileBlob;
+            fileBlob = await fileBlob.blob();
             await this.fileSystem.createFile(element, fileBlob);
         });
         await this.addServiceWorker();
