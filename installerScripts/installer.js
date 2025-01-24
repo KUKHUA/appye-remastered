@@ -10,7 +10,7 @@ class installer{
         this.fileList = await fetch(this.fileList);
         this.fileList = await this.fileList.json();
         this.fileList.files.forEach(async element => {
-            let fileURL = new URL(element, this.mirror);
+            let fileURL = this.mirror.pathname += element;
             let fileBlob = fetch(fileURL).then(response => response.blob());
             await this.fileSystem.createFile(element, fileBlob);
         });
