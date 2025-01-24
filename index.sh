@@ -17,7 +17,7 @@ find fileSystem/ -type f -printf '%P\0' | while IFS= read -r -d '' file; do
     else
         echo "," >> files.json
     fi
-    escaped_path=$(json_escape "/fileSystem/$file")
+    escaped_path=$(json_escape "fileSystem/$file")
     echo "    $escaped_path" >> files.json
 done
 
