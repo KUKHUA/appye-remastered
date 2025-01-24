@@ -1,11 +1,11 @@
 {
   "files": [
-    "/fileSystem/system/classes/fileLib.js"
+    "fileSystem/system/classes/fileLib.js"
 ,
-    "/fileSystem/system/script/serviceWorker.js"
+    "fileSystem/system/script/serviceWorker.js"
 ,
-    "/fileSystem/apps/appList.json"
+    "fileSystem/apps/appList.json"
 ,
-    "/fileSystem/system.json"
+    "fileSystem/system.json"
   ]
 }
