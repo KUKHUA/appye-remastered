@@ -3338,6 +3338,15 @@ class OPFSFile {
         this.metadata = {},
         this.#a()
     }
+    async json() {
+        try {
+            let blob = await this.getBlob()
+            let text = await blob.text()
+            return JSON.parse(text)
+        } catch (e) {
+            throw Error(`Unable to parse JSON: ${e.message}`)
+        }
+    }
     async getBlob() {
         try {
             return await this.fileHandle.getFile()
