@@ -53,6 +53,25 @@ class clientResources{
         }
     }
 
+    openApp(appName){
+        try {
+            const appTarget = this.config['appList'].get(appName);
+            if(appTarget.type === "embed" && appTarget.url && appTarget.name){
+                new WinBox({
+                    title: appTarget.name,
+                    url: appTarget.url,
+                    width: appTarget.width,
+                    height: appTarget.height,
+                    color: appTarget.color,
+                    icon: appTarget.icon,
+                    class: appTarget.class,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 }
 
 class config{

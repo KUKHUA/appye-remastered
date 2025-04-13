@@ -1,1 +1,12 @@
-{}
+{
+    "testApp" : {
+        "name": "Test App",
+        "description": "This is a test app.",
+        "version": "1.0.0",
+        "author": "Test Author",
+        "icon": "fileSystem/apps/testApp/icon.png",
+        "color": "#FF5733",
+        "type": "embed",
+        "url": "fileSystem/apps/testApp/index.html"
+    }
+}
