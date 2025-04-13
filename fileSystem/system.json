@@ -1,8 +1,7 @@
 {
     "autoLoad": {
         "apps": ["listApp"],
-        "classes": ["fileLib"],
-        "scripts": ["setupEnvironment"]
+        "scripts": ["fileSystem/script/init.js"]
     },
 
     "clientResources": {
