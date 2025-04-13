@@ -8,8 +8,6 @@
 ,
     "fileSystem/system.json"
 ,
-    "fileSystem/script/serviceWorker.js"
-,
     "fileSystem/script/installer.js"
   ]
 }
