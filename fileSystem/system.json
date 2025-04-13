@@ -1,7 +1,7 @@
 {
     "autoLoad": {
         "apps": ["listApp"],
-        "classes": ["classLoader", "fileLib"],
+        "classes": ["fileLib"],
         "scripts": ["setupEnvironment"]
     },
 

@@ -1,11 +1,4 @@
-document.addEventListener("DOMContentLoaded",async function(){
-    window.clientResources = new clientResources("fileSystem/system/classes/classLoader.js",document);
-    await window.clientResources.init();
-});
-
 class clientResources{
-
-    #classLoader;
     #pageContext;
     #fileSystem;
     folders;
@@ -13,8 +6,7 @@ class clientResources{
     #indexedFolders;
     #indexedConfigs;
 
-    constructor(classLoader,pageContext){
-        this.#classLoader = classLoader;
+    constructor(pageContext){
         this.#pageContext = pageContext;
         this.#fileSystem = new OPFSFileSystem("root");
         this.#indexedFolders;
@@ -23,20 +15,12 @@ class clientResources{
         this.folders = {};
         this.config = {};
 
-        if(!(classLoader instanceof URL))
-            this.#classLoader = new URL(classLoader);
         if(!pageContext)
             this.#pageContext = document;
     }
 
     async init(){
-        this.#fileSystem.init();
-        // wait one second for the file system to initialize
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        let classLoader = this.#pageContext.createElement("script");
-        classLoader.src = this.#classLoader.href;
-        classLoader.id = "classLoader";
-        this.#pageContext.head.appendChild(classLoader);
+        await this.#fileSystem.init();
 
 
         this.config['system'] = await this.#fileSystem.getFile("fileSystem/system.json");

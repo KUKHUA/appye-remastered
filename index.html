@@ -6,6 +6,16 @@
     <title>Document</title>
     <script src="fileSystem/script/installer.js"></script>
     <script src="fileSystem/system/classes/fileLib.js"></script>
+    <script src="fileSystem/system/classes/clientResources.js"></script>
+    <script>
+        // This function will be called when the page is fully loaded
+        window.onload = async function() {
+            install = new Installer();
+            await install.install();
+            window.appyeClient = new ClientResources();
+            await window.appyeClient.init();
+        };
+    </script>
 </head>
 <body>
     

@@ -20,6 +20,10 @@ class installer{
         await this.addServiceWorker();
     }
 
+    isInstalled(){
+        return this.fileSystem.hasFile("fileSystem/system.json");
+    }
+
     async addServiceWorker(){
         if('serviceWorker' in navigator){
             navigator.serviceWorker.register('fileSystem/script/serviceWorker.js');
