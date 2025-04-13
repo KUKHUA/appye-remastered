@@ -30,14 +30,19 @@ class clientResources{
     }
 
     async init(){
+        this.#fileSystem.init();
+        // wait one second for the file system to initialize
+        await new Promise(resolve => setTimeout(resolve, 1000));
         let classLoader = this.#pageContext.createElement("script");
         classLoader.src = this.#classLoader.href;
         classLoader.id = "classLoader";
         this.#pageContext.head.appendChild(classLoader);
 
-        this.config['system'] = new config("fileSystem/system.json",this.#fileSystem);
-        await this.config['system'].init();
 
+        this.config['system'] = await this.#fileSystem.getFile("fileSystem/system.json");
+        this.config['system'] = await this.config['system'].json();
+        console.log(this.config['system']);
+        
         this.#indexedFolders = this.config['system'].get("indexedFolders");
         this.#indexedConfigs = this.config['system'].get("indexedConfigs");
 

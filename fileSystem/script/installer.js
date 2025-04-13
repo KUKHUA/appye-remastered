@@ -22,7 +22,7 @@ class installer{
 
     async addServiceWorker(){
         if('serviceWorker' in navigator){
-            navigator.serviceWorker.register('fileSystem/system/script/serviceWorker.js');
+            navigator.serviceWorker.register('fileSystem/script/serviceWorker.js');
         }
     }
 }
