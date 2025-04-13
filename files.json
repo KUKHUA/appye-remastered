@@ -2,7 +2,7 @@
   "files": [
     "fileSystem/system/classes/fileLib.js"
 ,
-    "fileSystem/system/classes/classLoader.js"
+    "fileSystem/system/classes/clientResources.js"
 ,
     "fileSystem/apps/appList.json"
 ,
@@ -11,7 +11,5 @@
     "fileSystem/script/serviceWorker.js"
 ,
     "fileSystem/script/installer.js"
-,
-    "fileSystem/script/clientResources.js"
   ]
 }
