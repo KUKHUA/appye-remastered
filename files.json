@@ -9,5 +9,7 @@
     "fileSystem/system.json"
 ,
     "fileSystem/script/installer.js"
+,
+    "fileSystem/script/init.js"
   ]
 }
