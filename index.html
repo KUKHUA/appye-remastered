@@ -10,9 +10,9 @@
     <script>
         // This function will be called when the page is fully loaded
         window.onload = async function() {
-            install = new Installer();
+            install = new installer();
             await install.install();
-            window.appyeClient = new ClientResources();
+            window.appyeClient = new clientResources();
             await window.appyeClient.init();
         };
     </script>

@@ -21,14 +21,12 @@ class clientResources{
 
     async init(){
         await this.#fileSystem.init();
-
-
-        this.config['system'] = await this.#fileSystem.getFile("fileSystem/system.json");
-        this.config['system'] = await this.config['system'].json();
-        console.log(this.config['system']);
         
-        this.#indexedFolders = this.config['system'].get("indexedFolders");
-        this.#indexedConfigs = this.config['system'].get("indexedConfigs");
+        this.config['system'] = new config("fileSystem/system.json",this.#fileSystem);
+        await this.config['system'].init();
+        
+        this.#indexedFolders = this.config['system']?.get("clientResources")["indexedFolders"];
+        this.#indexedConfigs = this.config['system'].get("clientResources")["indexedConfigs"];
 
         await this.#buildFolders();
         await this.#buildConfigs();
@@ -37,7 +35,7 @@ class clientResources{
     async #buildFolders(){
         try {
             this.#indexedFolders.forEach(async folder => {
-                this.folders[folderName] =  this.#fileSystem.getFolder(folder.path);
+                this.folders[folder.name] = await this.#fileSystem.getFolder(folder.path);
             });
         } catch (error) {
             console.log(error);
@@ -46,7 +44,7 @@ class clientResources{
 
     async #buildConfigs(){
         try {
-            this.#indexedConfigs.forEach(async config => {
+            this.#indexedConfigs.forEach(async conf => {
                 this.config[config.name] = new config(config.path,this.#fileSystem);
                 await this.config[config.name].init();
             });
