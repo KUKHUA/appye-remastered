@@ -1,44 +1,43 @@
 {
-    "autoLoad": {
-        "apps": ["listApp"],
-        "scripts": ["fileSystem/script/init.js"]
-    },
+  "autoLoad": {
+    "apps": ["listApp"]
+  },
 
-    "clientResources": {
-        "indexedFolders": [
-            {
-                "name": "apps",
-                "path": "fileSystem/apps"
-            },
-            {
-                "name": "script",
-                "path": "fileSystem/script"
-            },
-            {
-                "name": "system",
-                "path": "fileSystem/system"
-            },
-            {
-                "name": "classes",
-                "path": "fileSystem/system/classes"
-            },
-            {
-                "name": "share",
-                "path": "fileSystem/system/share"
-            }
-        ],
-        
-        "indexedConfigs": [
-            {
-                "name": "appList",
-                "path": "fileSystem/apps/appList.json"
-            }
-        ]
-    },
+  "clientResources": {
+    "indexedFolders": [
+      {
+        "name": "apps",
+        "path": "fileSystem/apps"
+      },
+      {
+        "name": "script",
+        "path": "fileSystem/script"
+      },
+      {
+        "name": "system",
+        "path": "fileSystem/system"
+      },
+      {
+        "name": "classes",
+        "path": "fileSystem/system/classes"
+      },
+      {
+        "name": "share",
+        "path": "fileSystem/system/share"
+      }
+    ],
 
-    "systemInfo": {
-        "name": "Appye-Remastered",
-        "version": "1.0.0",
-        "description": "it exists."
-    }
+    "indexedConfigs": [
+      {
+        "name": "appList",
+        "path": "fileSystem/apps/appList.json"
+      }
+    ]
+  },
+
+  "systemInfo": {
+    "name": "Appye-Remastered",
+    "version": "1.0.0",
+    "description": "it exists."
+  }
 }
