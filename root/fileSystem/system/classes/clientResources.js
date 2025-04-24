@@ -30,6 +30,13 @@ class clientResources {
 
     // Wait for all folders and configs to be built
     await Promise.all([this.#buildFolders(), this.#buildConfigs()]);
+
+    // loads apps from system.autoload.apps
+    let loadDeezApps = this.config["system"]?.get("autoLoad");
+    loadDeezApps = loadDeezApps?.apps || [];
+    for (const app of loadDeezApps) {
+      this.openApp(app);
+    }
   }
 
   async #buildFolders() {
