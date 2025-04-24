@@ -16,8 +16,7 @@ async function handleRootRequestFromOPFS(request) {
   console.log("INFO: Entering handleRootRequestFromOPFS function.");
   let path = "";
   try {
-    const root = await navigator.storage.getDirectory();
-    const fs = await root.getDirectoryHandle("root", { create: true });
+    const fs = await navigator.storage.getDirectory();
 
     const url = new URL(request.url);
     path = url.pathname.substring(url.pathname.indexOf("/root/") + 6);
