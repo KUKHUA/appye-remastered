@@ -1,21 +1,4 @@
 {
   "files": [
-    "root/fileSystem/system/classes/fileLib.js"
-,
-    "root/fileSystem/system/classes/clientResources.js"
-,
-    "root/fileSystem/system/share/winbox.js"
-,
-    "root/fileSystem/apps/appList.json"
-,
-    "root/fileSystem/apps/testApp/icon.png"
-,
-    "root/fileSystem/apps/testApp/index.html"
-,
-    "root/fileSystem/system.json"
-,
-    "root/fileSystem/script/installer.js"
-,
-    "root/fileSystem/script/init.js"
   ]
 }
