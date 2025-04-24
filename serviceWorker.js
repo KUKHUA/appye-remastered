@@ -1,61 +1,75 @@
-self.addEventListener('fetch', event => {
-    console.log(`INFO: Fetch event triggered for URL: ${event.request.url}`);
-    if (event.request.url.includes('/root/')) {
-        console.log('INFO: URL includes /root/, handling request with OPFS.');
-        event.respondWith(
-            handleRootRequestFromOPFS(event.request)
-        );
-    } else {
-        console.log('INFO: URL does not include /root/, fetching normally.');
-        event.respondWith(fetch(event.request));
-    }
+self.addEventListener("fetch", (event) => {
+  console.log(`INFO: Fetch event triggered for URL: ${event.request.url}`);
+  if (event.request.url.includes("/root/")) {
+    console.log("INFO: URL includes /root/, handling request with OPFS.");
+    event.respondWith(handleRootRequestFromOPFS(event.request));
+  } else {
+    console.log("INFO: URL does not include /root/, fetching normally.");
+    event.respondWith(fetch(event.request));
+  }
 });
 
 async function handleRootRequestFromOPFS(request) {
-    console.log('INFO: Entering handleRootRequestFromOPFS function.');
-    let path = '';
-    try {
-        console.log('INFO: Attempting to get the root directory handle.');
-        let fs = await navigator.storage.getDirectory();
-        console.log('INFO: Successfully obtained root directory handle.');
-        
-        fs = fs.getDirectoryHandle('root');
-        console.log('INFO: Navigated to "root" directory.');
+  console.log("INFO: Entering handleRootRequestFromOPFS function.");
+  let path = "";
+  try {
+    const root = await navigator.storage.getDirectory();
+    const fs = await root.getDirectoryHandle("root", { create: true });
 
-        let url = new URL(request.url);
-        path = url.pathname;
-        path = path.substring(path.indexOf('/root/') + 6);
-        console.log(`INFO: Extracted path from URL: ${path}`);
-        
-        let parts = path.split('/');
-        console.log(`INFO: Split path into parts: ${parts.join(', ')}`);
-        
-        let currentDir = fs;
-        for (let i = 0; i < parts.length - 1; i++) {
-            console.log(`INFO: Navigating to directory: ${parts[i]}`);
-            currentDir = await currentDir.getDirectoryHandle(parts[i]);
-        }
-        
-        console.log(`INFO: Attempting to get file handle for: ${parts[parts.length - 1]}`);
-        let fileHandle = await currentDir.getFileHandle(parts[parts.length - 1]);
-        console.log('INFO: Successfully obtained file handle.');
+    const url = new URL(request.url);
+    path = url.pathname.substring(url.pathname.indexOf("/root/") + 6);
+    const parts = path.split("/");
 
-        let file = await fileHandle.getFile();
-        console.log(`INFO: Successfully obtained file. File type: ${file.type}, File size: ${file.size} bytes.`);
-        
-        let response = new Response(file, {
-            headers: {
-                'Content-Type': file.type
-            }
-        });
-        console.log('INFO: Successfully created response object.');
-        return response;
-    } catch (e) {
-        console.error(`ERROR: Unable to find file at path ${path}. Full error: ${e}`);
-        let response = new Response(`Unable to find file at path ${path}, full error is ${e}`, {
-            status: 404,
-            statusText: 'Not Found'
-        });
-        return response;
+    let currentDir = fs;
+    for (let i = 0; i < parts.length - 1; i++) {
+      currentDir = await currentDir.getDirectoryHandle(parts[i], {
+        create: true,
+      });
     }
+
+    const fileName = parts[parts.length - 1];
+    try {
+      // Try to get the file from OPFS
+      const fileHandle = await currentDir.getFileHandle(fileName);
+      const file = await fileHandle.getFile();
+      console.log("INFO: Successfully served file from OPFS.");
+      return new Response(file, {
+        headers: { "Content-Type": file.type },
+      });
+    } catch (opfsError) {
+      console.warn(
+        `WARN: File not found in OPFS, fetching from network: ${path}`
+      );
+
+      // Fetch from network
+      const networkResponse = await fetch(request);
+
+      if (!networkResponse.ok)
+        throw new Error(
+          `Network request failed with status ${networkResponse.status}`
+        );
+
+      // Clone response to use in OPFS and for serving
+      const responseClone = networkResponse.clone();
+      const blob = await responseClone.blob();
+
+      const fileHandle = await currentDir.getFileHandle(fileName, {
+        create: true,
+      });
+      const writable = await fileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      console.log(`INFO: Fetched and saved file to OPFS: ${path}`);
+
+      return networkResponse;
+    }
+  } catch (e) {
+    console.error(
+      `ERROR: Unable to handle request for path ${path}. Full error: ${e}`
+    );
+    return new Response(`Unable to retrieve file: ${e}`, {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
 }
