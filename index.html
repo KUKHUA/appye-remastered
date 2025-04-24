@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="root/fileSystem/script/installer.js"></script>
-    <script src="root/fileSystem/system/classes/fileLib.js"></script>
-    <script src="root/fileSystem/system/classes/clientResources.js"></script>
-    <script src="root/fileSystem/system/share/winbox.js"></script>
+    <script src="root/fileSystem/script/Installer.js"></script>
+    <script src="root/fileSystem/system/classes/FileLib.js"></script>
+    <script src="root/fileSystem/system/classes/ClientResources.js"></script>
+    <script src="root/fileSystem/system/classes/Config.js"></script>
+    <script src="root/fileSystem/system/share/Winbox.js"></script>
     <script>
       window.onload = async function () {
-        install = new installer();
-        await install.install();
-        window.appyeClient = new clientResources();
-        await window.appyeClient.init();
+        installMe = new Installer();
+        await installMe.install();
+        window.clientResources = new ClientResources();
+        await window.clientResources.init();
       };
     </script>
   </head>

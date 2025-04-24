@@ -1,4 +1,4 @@
-class clientResources {
+class ClientResources {
   #pageContext;
   #fileSystem;
   folders;
@@ -17,7 +17,7 @@ class clientResources {
   async init() {
     await this.#fileSystem.init();
 
-    this.config["system"] = new config(
+    this.config["system"] = new Config(
       "fileSystem/system.json",
       this.#fileSystem
     );
@@ -60,7 +60,7 @@ class clientResources {
       await Promise.all(
         this.#indexedConfigs.map(async (conf) => {
           // Use the loop variable 'conf' instead of the class 'config'
-          const configInstance = new config(conf.path, this.#fileSystem);
+          const configInstance = new Config(conf.path, this.#fileSystem);
           await configInstance.init();
           this.config[conf.name] = configInstance; // Assign after init
         })
@@ -87,6 +87,21 @@ class clientResources {
           icon: appTarget.icon,
           class: appTarget.class,
         });
+      } else if (appTarget?.type === "javascript" && appTarget.url) {
+        const script = document.createElement("script");
+        script.src = appTarget.url;
+
+        script.onload = () => {
+          console.log(`App '${appName}' loaded successfully.`);
+        };
+
+        script.onerror = () => {
+          console.error(
+            `${appName} failed to load. Script URL: ${appTarget.url}`
+          );
+        };
+
+        this.#pageContext.head.appendChild(script);
       } else if (appTarget) {
         console.warn(
           `App '${appName}' found but missing required properties or is not of type 'embed'.`
@@ -97,73 +112,5 @@ class clientResources {
     } catch (error) {
       console.error(`Error opening app '${appName}':`, error); // Log error specifically
     }
-  }
-}
-
-class config {
-  constructor(path, fileSystem) {
-    this.fileSystem = fileSystem;
-    this.path = path;
-    this.config = null; // Initialize to null
-  }
-
-  async init() {
-    try {
-      // Add try-catch for file operations
-      const file = await this.fileSystem.getFile(this.path);
-      if (file) {
-        // Check if file was retrieved
-        this.config = await file.json();
-      } else {
-        console.error(`Config file not found at path: ${this.path}`);
-        this.config = {}; // Initialize to empty object on error
-      }
-    } catch (error) {
-      console.error(`Error initializing config from ${this.path}:`, error);
-      this.config = {}; // Initialize to empty object on error
-    }
-  }
-
-  get(key) {
-    // Add check if config is initialized
-    return this.config?.[key];
-  }
-
-  getAll() {
-    return this.config;
-  }
-
-  overwrite(newConfig) {
-    // Renamed parameter for clarity
-    this.config = newConfig;
-  }
-
-  set(key, value) {
-    if (this.config) {
-      // Check if config is initialized
-      this.config[key] = value;
-    } else {
-      console.error("Cannot set value, config not initialized.");
-    }
-  }
-
-  async save() {
-    if (!this.config) {
-      console.error("Cannot save, config not initialized.");
-      return;
-    }
-    try {
-      // Add try-catch for file operations
-      await this.fileSystem.createFile(
-        this.path,
-        JSON.stringify(this.config, null, 2)
-      ); // Added pretty print
-    } catch (error) {
-      console.error(`Error saving config to ${this.path}:`, error);
-    }
-  }
-
-  async reload() {
-    await this.init(); // Re-initializes using the same error handling
   }
 }
