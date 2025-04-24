@@ -1,4 +1,4 @@
-class installer {
+class Installer {
   constructor() {
     this.mirror = new URL(
       "https://raw.githack.com/KUKHUA/appye-remastered/main/"
