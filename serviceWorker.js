@@ -5,7 +5,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(handleRootRequestFromOPFS(event.request));
   } else {
     console.log("INFO: URL does not include /root/, fetching normally.");
-    event.respondWith(fetch(event.request));
+    event.respondWith(fetch(event));
   }
 });
 

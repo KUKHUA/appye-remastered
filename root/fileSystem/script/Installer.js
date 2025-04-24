@@ -17,7 +17,9 @@ class Installer {
       let fileBlob = fetch(fileURL);
       fileBlob = await fileBlob;
       fileBlob = await fileBlob.blob();
-      await this.fileSystem.createFile(element, fileBlob);
+      let realativeURL = element.replace(/root\//, "");
+      console.log(realativeURL);
+      await this.fileSystem.createFile(realativeURL, fileBlob);
     });
     await this.addServiceWorker();
   }
