@@ -11,13 +11,13 @@ echo "  \"files\": [" >> files.json
 
 # Use find to get all files in fileSystem/, then format as JSON
 first=true
-find fileSystem/ -type f -printf '%P\0' | while IFS= read -r -d '' file; do
+find root/ -type f -printf '%P\0' | while IFS= read -r -d '' file; do
     if [ "$first" = true ]; then
         first=false
     else
         echo "," >> files.json
     fi
-    escaped_path=$(json_escape "fileSystem/$file")
+    escaped_path=$(json_escape "root/$file")
     echo "    $escaped_path" >> files.json
 done
 
@@ -25,4 +25,4 @@ done
 echo "  ]" >> files.json
 echo "}" >> files.json
 
-echo "File list from fileSystem/ has been saved to files.json"
+echo "File list from root/ has been saved to files.json"
