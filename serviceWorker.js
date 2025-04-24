@@ -1,6 +1,9 @@
 self.addEventListener("fetch", (event) => {
   console.log(`INFO: Fetch event triggered for URL: ${event.request.url}`);
-  if (event.request.url.includes("/root/")) {
+  if (
+    event.request.url.includes("/root/") &&
+    !event.request.url.includes("raw.githack.com")
+  ) {
     console.log("INFO: URL includes /root/, handling request with OPFS.");
     event.respondWith(handleRootRequestFromOPFS(event.request));
   } else {
