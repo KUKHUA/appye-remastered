@@ -91,6 +91,9 @@ async function handleRootRequestFromOPFS(request) {
     headers: {
       "Content-Type": contentType,
       "Content-Length": file.size,
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
     },
   });
 }
