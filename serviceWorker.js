@@ -17,25 +17,9 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.startsWith(OPFS_PREFIX)) {
     event.respondWith(
       handleRootRequestFromOPFS(event.request).catch((error) => {
-        if (error.name === "NotFoundError") {
-          console.warn(
-            `[SW Info] File not found in OPFS: ${url.pathname}. Falling back to network fetch.`
-          );
-          return fetch(event.request);
-        } else {
-          console.error(
-            `[SW OPFS Error] Failed to handle OPFS request for ${url.pathname}:`,
-            error
-          );
-          return new Response("Server error handling OPFS request", {
-            status: 500,
-            statusText: "Internal Server Error",
-          });
-        }
+        event.respondWith(fetch(event.request));
       })
     );
-  } else {
-    event.respondWith(fetch(event.request));
   }
 });
 
